@@ -39,7 +39,7 @@ class SignInView(APIView):
 
             response_data = {
                 'message': 'Login successful',
-                'Access-Token': access_token
+                'access': access_token
             }
 
             return Response(response_data, status=status.HTTP_200_OK)
