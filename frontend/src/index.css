@@ -1,0 +1,94 @@
+/* Montserrat bold - 700 */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local(''),
+    url('./assets/fonts/Montserrat-Bold.ttf') format('truetype');
+}
+
+/* Montserrat semi-bold - 600 */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  src:
+    local(''),
+    url('./assets/fonts/Montserrat-SemiBold.ttf') format('truetype');
+}
+
+/* Montserrat medium - 500 */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src:
+    local(''),
+    url('./assets/fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+/* Montserrat normal - 300 */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    local(''),
+    url('./assets/fonts/Montserrat-Regular.ttf') format('truetype');
+}
+
+/* Montserrat light  - 200 */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 200;
+  src:
+    local(''),
+    url('./assets/fonts/Montserrat-Light.ttf') format('truetype');
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body,
+div,
+form,
+p,
+span,
+section,
+button,
+dd,
+dl,
+dt,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+a,
+fieldset {
+  font-family: Montserrat, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: #282b36;
+}
