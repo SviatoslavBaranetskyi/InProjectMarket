@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from carts.models import Cart
 from .models import Order
 from .serializers import OrderSerializer
+from .utils import notify_admin_order_created
 
 
 class OrderListCreateView(generics.ListCreateAPIView):
@@ -16,10 +17,13 @@ class OrderListCreateView(generics.ListCreateAPIView):
         return Order.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        cart = get_object_or_404(Cart, user_id=request.user)  # Получаем корзину пользователя
-        total_price = cart.total_price  # Получаем общую цену из корзины
+        cart = get_object_or_404(Cart, user_id=request.user)
+        total_price = cart.total_price
 
         order = Order.objects.create(user=request.user, cart=cart, total_price=total_price)
+
+        notify_admin_order_created()
+
         serializer = self.get_serializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
