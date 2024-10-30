@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -51,27 +52,14 @@ class ProfileView(APIView):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, slug):
-        profile = Profile.objects.filter(user__username=slug).first()
-        if not profile:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        if request.user != profile.user:
-            return Response({'error': 'You do not have permission to view this profile'},
-                            status=status.HTTP_403_FORBIDDEN)
+    def get(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
 
         serializer = ProfileSerializer(profile)
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, slug):
-        profile = Profile.objects.filter(user__username=slug).first()
-        if not profile:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        if request.user != profile.user:
-            return Response({'error': 'You do not have permission to update this profile'},
-                            status=status.HTTP_403_FORBIDDEN)
+    def put(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
 
         serializer = ProfileSerializer(profile, data=request.data)
 
@@ -81,14 +69,8 @@ class ProfileView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, slug):
-        profile = Profile.objects.filter(user__username=slug).first()
-        if not profile:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        if request.user != profile.user:
-            return Response({'error': 'You do not have permission to delete this profile'},
-                            status=status.HTTP_403_FORBIDDEN)
+    def delete(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
 
         profile.user.delete()
         return Response({'message': 'Profile deleted successfully'}, status=status.HTTP_204_NO_CONTENT)

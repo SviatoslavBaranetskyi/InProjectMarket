@@ -13,7 +13,7 @@ class CartDetailView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        cart, created = Cart.objects.get_or_create(user_id=self.request.user)
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
         return cart
 
 
