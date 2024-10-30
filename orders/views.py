@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from carts.models import Cart
+from notifications.tasks import send_order_confirmation_email
 from .models import Order
 from .serializers import OrderSerializer
 from .utils import notify_admin_order_created
@@ -23,6 +24,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
         order = Order.objects.create(user=request.user, cart=cart, total_price=total_price)
 
         notify_admin_order_created()
+        send_order_confirmation_email.delay(request.user.email, order.id)
 
         serializer = self.get_serializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

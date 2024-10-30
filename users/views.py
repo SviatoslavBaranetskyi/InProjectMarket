@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from notifications.tasks import send_registration_email
 from .models import Profile
 from .serializers import SignUpSerializer, ProfileSerializer
 
@@ -22,6 +23,7 @@ class SignUpView(APIView):
                 return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
             user = serializer.save()
+            send_registration_email.delay(user.email)
 
             return Response({"message": "You have successfully registered"}, status=status.HTTP_201_CREATED)
         else:
